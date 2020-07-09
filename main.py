@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-if os.getenv('DEV'):
+if os.environ.get('DEV', None):
     from flask_ngrok import run_with_ngrok
     run_with_ngrok(app)
 
@@ -16,8 +16,8 @@ def carbonara_webhook():
     message = update.get('message')
     if message:
         image = requests.post(url='https://carbonara.now.sh/api/cook', json={'code' : message['text'], 'backgroundColor': '#1F816D'}).content
-        img_bb = requests.post(url='https://api.imgbb.com/1/upload?expiration=60&key=' + os.getenv('IMGBB_KEY'), files={'image' : image}).text
-        t_request = requests.post(url='https://api.telegram.org/bot' + os.getenv('TELEGRAM_TOKEN') + '/sendPhoto', json={'chat_id' : message['chat']['id'], 'photo' : json.loads(img_bb)['data']['url']})
+        img_bb = requests.post(url='https://api.imgbb.com/1/upload?expiration=60&key=' + os.environ.get('IMGBB_KEY', None), files={'image' : image}).text
+        t_request = requests.post(url='https://api.telegram.org/bot' + os.environ.get('TELEGRAM_TOKEN', None) + '/sendPhoto', json={'chat_id' : message['chat']['id'], 'photo' : json.loads(img_bb)['data']['url']})
     return 'OK', 200
 
 if __name__ == '__main__':
