@@ -20,5 +20,5 @@ def carbonara_webhook():
         t_request = requests.post(url='https://api.telegram.org/bot' + os.getenv('TELEGRAM_TOKEN') + '/sendPhoto', json={'chat_id' : message['chat']['id'], 'photo' : json.loads(img_bb)['data']['url']})
     return 'OK', 200
 if __name__ == '__main__':
-    app.run()
+    app.run('tk-bots.herokuapp.com')
 
