@@ -8,4 +8,4 @@ This project is a monolithic repository made with the purpose to make easy for m
 - [ ] enable "inline" use
 - [ ] use the token that the telegram passes to the webhook instead of the token saved in an environment variable.
 - [ ] send the image directly to the telegram API without using img_bb as an intermediary
-- [ ] configure continuous integration
+- [X] configure continuous integration
