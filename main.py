@@ -14,10 +14,9 @@ if os.environ.get('DEV', None):
 def carbonara_webhook():
     update = request.get_json()
     message = update.get('message')
-    if message:
+    if message and message['text'] != '/start':
         image = requests.post(url='https://carbonara.now.sh/api/cook', json={'code' : message['text'], 'backgroundColor': '#1F816D'}).content
-        img_bb = requests.post(url='https://api.imgbb.com/1/upload?expiration=60&key=' + os.environ.get('IMGBB_KEY', None), files={'image' : image}).text
-        t_request = requests.post(url='https://api.telegram.org/bot' + os.environ.get('TELEGRAM_TOKEN', None) + '/sendPhoto', json={'chat_id' : message['chat']['id'], 'photo' : json.loads(img_bb)['data']['url']})
+        t_request = requests.post(url='https://api.telegram.org/bot' + os.environ.get('TELEGRAM_TOKEN') + '/sendPhoto', data={'chat_id' : message['chat']['id']}, files={'photo' : image})
     return 'OK', 200
 
 if __name__ == '__main__':
